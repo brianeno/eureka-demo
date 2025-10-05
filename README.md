@@ -1,6 +1,18 @@
-# Eureka Service Discovery Demo
+# Eureka Service Discovery Sample Code
 
-Complete working example demonstrating service discovery with Netflix Eureka, Spring Boot 3.5.6, and Spring Cloud 2025.0.0.
+Code demonstrating service discovery with Netflix Eureka, Spring Boot 3.5.6, and Spring Cloud 2025.0.0.
+
+This is from my medium article **Microservice Service Discovery with Spring Cloud**
+
+This article and others from me can be found at https://medium.com/@brianenochson
+
+## Key Features Demonstrated
+
+- **Service Registration**: Services automatically register with Eureka on startup
+- **Service Discovery**: Product service discovers inventory service by name, not URL
+- **Load Balancing**: Automatic client-side load balancing with @LoadBalanced RestTemplate
+- **Fault Tolerance**: Product service handles inventory service failures gracefully
+- **Dynamic Scaling**: Add/remove service instances without configuration changes
 
 ## Quick Start
 
@@ -32,22 +44,11 @@ mvn spring-boot:run
 cd inventory-service
 mvn spring-boot:run
 ```
-
-## Services
-
-| Service | Port | Description | Dashboard |
-|---------|------|-------------|-----------|
-| Eureka Server | 8761 | Service Registry | http://localhost:8761 |
-| Product Service | Random | Product API | - |
-| Inventory Service | Random | Stock Management | - |
-
 ## Key Features
 
 - **Dynamic Service Discovery** - Services register/deregister automatically
 - **Client-Side Load Balancing** - Requests distributed across instances
 - **Random Ports** - Services use `server.port=0` for dynamic allocation
-- **Security Ready** - Basic auth configured (username: chargeroute, password: Admin123!)
-- **Lombok Integration** - Reduced boilerplate with @Slf4j and @Getter/@Setter
 
 ## Testing
 
@@ -75,7 +76,7 @@ docker-compose up -d
 # Stop services
 docker-compose down
 
-# Clean up everything
+# Clean up everything, including the images
 docker-compose down -v --rmi all
 ```
 
@@ -84,40 +85,6 @@ docker-compose down -v --rmi all
 - Services use random ports (`server.port=0`) for flexibility
 - Eureka credentials configured via environment variables
 - Instance IDs include random values to ensure uniqueness
-- Lombok configured for DTOs and logging
-
-## Troubleshooting
-
-**Services not registering:**
-- Check Eureka Server is running at http://localhost:8761
-- Verify network connectivity between containers
-
-**Port conflicts:**
-- Services use random ports by default
-- Only Eureka Server uses fixed port 8761
-
-**Build failures:**
-- Ensure Java 21 is installed
-- Run `mvn clean` before building
-
-## Architecture
-
-```
-┌─────────────────┐
-│  Eureka Server  │
-│   (Port 8761)   │
-└────────┬────────┘
-         │
-    Registration
-         │
-   ┌─────┴─────┐
-   │           │
-┌──▼───┐   ┌──▼───┐
-│Product│   │Invent│
-│Service│──▶│Service│
-└──────┘    └──────┘
-  Discovery & Call
-```
 
 ## Running Locally
 
@@ -222,52 +189,3 @@ To see this in action:
 # Make multiple requests to see load balancing
 for i in {1..10}; do curl http://localhost:8081/products/1; echo; done
 ```
-
-## Key Features Demonstrated
-
-- **Service Registration**: Services automatically register with Eureka on startup
-- **Service Discovery**: Product service discovers inventory service by name, not URL
-- **Load Balancing**: Automatic client-side load balancing with @LoadBalanced RestTemplate
-- **Fault Tolerance**: Product service handles inventory service failures gracefully
-- **Dynamic Scaling**: Add/remove service instances without configuration changes
-
-## Troubleshooting
-
-### Services Not Registering with Eureka
-- Ensure Eureka Server is running first
-- Check that services can reach http://localhost:8761
-- Verify spring.application.name is set in each service
-
-### Inter-Service Communication Fails
-- Confirm both services are registered in Eureka dashboard
-- Check service names match exactly (case-sensitive)
-- Ensure @LoadBalanced annotation is present on RestTemplate
-
-### Port Already in Use
-- Change the port using: `--server.port=XXXX`
-- Or modify the application.yml file
-
-## Project Structure
-
-```
-eureka-demo/
-├── eureka-server/          # Service Registry
-├── product-service/        # Product API (Eureka Client)
-├── inventory-service/      # Inventory API (Eureka Client)
-├── docker-compose.yml      # Multi-container setup
-└── README.md              # This file
-```
-
-## Next Steps
-
-This example demonstrates basic service discovery. For production use, consider:
-
-- Adding Circuit Breakers (Resilience4j)
-- Implementing Security (OAuth2/JWT)
-- Using Spring Cloud Gateway for API Management
-- Adding Distributed Tracing (Sleuth + Zipkin)
-- Implementing Centralized Configuration (Spring Cloud Config)
-
-## Learn More
-
-For a comprehensive guide to building production-ready microservices with Spring Boot and Spring Cloud, including advanced patterns and real-world examples, check out the upcoming book at [https://github.com/brianeno/sc-book](https://github.com/brianeno/sc-book).

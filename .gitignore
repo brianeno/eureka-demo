@@ -11,7 +11,8 @@ build
 *.swp
 metastore_db
 /src/test/resources/s3.properties
-/.idea/
+**/.idea/
+.idea
 /.vscode/
 .DS_Store
 out
