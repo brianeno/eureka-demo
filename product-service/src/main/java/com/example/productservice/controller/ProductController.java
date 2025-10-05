@@ -12,26 +12,20 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
 import java.util.Map;
-
 @Slf4j
 @RestController
 @RequestMapping("/products")
 public class ProductController {
     private final RestTemplate restTemplate;
-
-    // Sample product data
     private static final Map<Long, Product> products = new HashMap<>();
-
     static {
         products.put(1L, new Product(1L, "Laptop", 999.99));
         products.put(2L, new Product(2L, "Mouse", 29.99));
         products.put(3L, new Product(3L, "Keyboard", 79.99));
     }
-
     public ProductController(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
-
     @GetMapping("/{id}")
     public ProductResponse getProduct(@PathVariable Long id) {
         log.info("Fetching product with id: {}", id);
@@ -65,12 +59,10 @@ public class ProductController {
                 product.getPrice(),
                 quantity);
     }
-
     @GetMapping("/health")
     public String health() {
         return "Product Service is running!";
     }
-
     private Product findProduct(Long id) {
         return products.get(id);
     }

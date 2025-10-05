@@ -12,14 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
-
 @Slf4j
 @RestController
 @RequestMapping("/inventory")
 public class InventoryController {
     private static final Map<Long, Integer> inventory = new HashMap<>();
     private static final Random random = new Random();
-
     static {
         // Initialize with sample inventory data
         inventory.put(1L, 100);  // Laptop - 100 in stock
@@ -27,7 +25,6 @@ public class InventoryController {
         inventory.put(3L, 50);   // Keyboard - 50 in stock
         inventory.put(4L, 0);    // Out of stock item
     }
-
     @GetMapping("/{productId}")
     public InventoryResponse getInventory(@PathVariable Long productId) {
         log.info("Checking inventory for product: {}", productId);
@@ -44,7 +41,6 @@ public class InventoryController {
 
         return new InventoryResponse(productId, quantity);
     }
-
     @PutMapping("/{productId}")
     public InventoryResponse updateInventory(@PathVariable Long productId,
                                              @RequestParam Integer quantity) {
@@ -52,7 +48,6 @@ public class InventoryController {
         inventory.put(productId, quantity);
         return new InventoryResponse(productId, quantity);
     }
-
     @GetMapping("/health")
     public String health() {
         return "Inventory Service is running! Port: " +

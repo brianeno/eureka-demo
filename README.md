@@ -105,7 +105,7 @@ mvn spring-boot:run
 3. **Start the Inventory Service (Instance 2 - Optional):**
 ```bash
 cd inventory-service
-mvn spring-boot:run -Dspring-boot.run.arguments="--server.port=8083 --eureka.instance.instance-id=inventory-service:8083"
+mvn spring-boot:run
 ```
 
 4. **Start the Product Service:**
@@ -140,6 +140,12 @@ This will start:
    - Open http://localhost:8761
    - You should see PRODUCT-SERVICE and INVENTORY-SERVICE registered
 
+Let's find the port our inventory and product services are running on.
+
+http://localhost:8761/eureka/apps
+
+Note the terminals.
+
 2. **Test Product Service:**
 ```bash
 # Get product with inventory check
@@ -155,6 +161,7 @@ curl http://localhost:8081/products/1
 ```
 
 3. **Test Inventory Service Directly:**
+
 ```bash
 # Check inventory
 curl http://localhost:8082/inventory/1
