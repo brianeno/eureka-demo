@@ -1,4 +1,4 @@
-FROM openjdk:21-jdk-slim
+FROM eclipse-temurin:21-jdk
 VOLUME /tmp
 COPY target/*.jar app.jar
 RUN apt-get update && apt-get install -y curl
